@@ -3,7 +3,6 @@ Module de gestion des prompts système pour les différents agents IA.
 Permet de charger et gérer les prompts spécialisés pour chaque type d'analyse.
 """
 
-import os
 from pathlib import Path
 from typing import Dict, Optional
 from enum import Enum
@@ -16,6 +15,7 @@ class PromptType(Enum):
     MONETIZATION_ADVISOR = "monetization_advisor"
     CONTENT_STRATEGY = "content_strategy"
     AUDIENCE_INSIGHTS = "audience_insights"
+    VOICE_IMPACT_SUMMARY = "voice_impact_summary"
 
 
 class PromptManager:
@@ -44,6 +44,7 @@ class PromptManager:
             PromptType.MONETIZATION_ADVISOR: "monetization_advisor_prompt.txt",
             PromptType.CONTENT_STRATEGY: "content_strategy_prompt.txt",
             PromptType.AUDIENCE_INSIGHTS: "audience_insights_prompt.txt",
+            PromptType.VOICE_IMPACT_SUMMARY: "voice_impact_summary_prompt.txt",
         }
 
     def load_prompt(self, prompt_type: PromptType, force_reload: bool = False) -> str:
@@ -147,7 +148,7 @@ class PromptManager:
 
         if "posts_data" in context:
             posts = context["posts_data"]
-            context_section += f"\n## Données de contenu\n"
+            context_section += "\n## Données de contenu\n"
             context_section += f"- Nombre de posts analysés: {len(posts)}\n"
             if posts:
                 avg_likes = sum(p.get("likes", 0) for p in posts) / len(posts)

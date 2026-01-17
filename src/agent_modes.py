@@ -6,8 +6,8 @@ Permet de choisir quel type de conseiller utiliser.
 from typing import Dict, Any, List
 from enum import Enum
 
-from rag_pipeline import RAGPipeline, get_rag_pipeline
-from utils.prompt_manager import PromptManager, PromptType, get_prompt_manager
+from rag_pipeline import RAGPipeline
+from utils.prompt_manager import PromptType, get_prompt_manager
 
 
 class AgentMode(Enum):
@@ -17,6 +17,7 @@ class AgentMode(Enum):
     MONETIZATION = "monetization"  # Conseils monétisation
     STRATEGY = "strategy"  # Stratégie de contenu
     AUDIENCE = "audience"  # Analyse d'audience
+    VOICE_IMPACT = "voice_impact"  # Résumé vocal de l'impact
 
 
 def get_prompt_for_mode(mode: AgentMode) -> PromptType:
@@ -34,6 +35,7 @@ def get_prompt_for_mode(mode: AgentMode) -> PromptType:
         AgentMode.MONETIZATION: PromptType.MONETIZATION_ADVISOR,
         AgentMode.STRATEGY: PromptType.CONTENT_STRATEGY,
         AgentMode.AUDIENCE: PromptType.AUDIENCE_INSIGHTS,
+        AgentMode.VOICE_IMPACT: PromptType.VOICE_IMPACT_SUMMARY,
     }
     return mapping[mode]
 
@@ -45,6 +47,7 @@ def get_mode_description(mode: AgentMode) -> str:
         AgentMode.MONETIZATION: "💰 Monétisation - Conseils sur les partenariats et revenus",
         AgentMode.STRATEGY: "🎯 Stratégie de Contenu - Planning et idées de création",
         AgentMode.AUDIENCE: "👥 Analyse d'Audience - Comprend votre communauté",
+        AgentMode.VOICE_IMPACT: "🎙️ Résumé Vocal - Génère un résumé audio de l'impact de votre dernier post",
     }
     return descriptions.get(mode, "Mode inconnu")
 

@@ -167,6 +167,30 @@ class VectorStore:
         """Get the number of posts in the collection."""
         return self.collection.count()
 
+    def get_all(self) -> Dict[str, Any]:
+        """
+        Récupère tous les posts de la collection.
+
+        Returns:
+            Dictionnaire avec ids, documents et metadatas
+        """
+        try:
+            result = self.collection.get()
+            if result and result["ids"]:
+                # Unflatten les métadonnées
+                unflattened_metadatas = [
+                    self._unflatten_metadata(m) for m in result.get("metadatas", [])
+                ]
+                return {
+                    "ids": result["ids"],
+                    "documents": result.get("documents", []),
+                    "metadatas": unflattened_metadatas,
+                }
+        except Exception as e:
+            print(f"Error getting all posts: {e}")
+
+        return {"ids": [], "documents": [], "metadatas": []}
+
     def _flatten_metadata(self, metadata: Dict[str, Any]) -> Dict[str, Any]:
         """
         Flatten nested metadata for ChromaDB compatibility.

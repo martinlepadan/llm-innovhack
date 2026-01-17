@@ -54,3 +54,6 @@ tests/test_*.py
 tests/
 notebooks/
 CAHIER_DES_CHARGES.md
+.claude/
+output/
+examples/

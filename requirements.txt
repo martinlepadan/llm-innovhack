@@ -4,6 +4,9 @@ sentence-transformers>=2.2.0
 langchain>=0.1.0
 langchain-community>=0.0.20
 
+# Text-to-Speech (TTS)
+google-cloud-texttospeech>=2.14.0  # Google Cloud TTS avec voix Chirp
+
 # Vector Store
 chromadb>=0.4.0
 
