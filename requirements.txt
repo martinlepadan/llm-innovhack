@@ -10,6 +10,10 @@ google-cloud-texttospeech>=2.14.0  # Google Cloud TTS avec voix Chirp
 # Vector Store
 chromadb>=0.4.0
 
+# API Server
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+
 # Utilities
 python-dotenv>=1.0.0
 pydantic>=2.0.0
