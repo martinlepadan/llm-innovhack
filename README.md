@@ -8,12 +8,30 @@ Un agent intelligent qui analyse les statistiques Instagram d'un influenceur pou
 
 ## 🎯 Fonctionnalités
 
+- ✅ **4 Modes d'agent spécialisés** : Content Analyst, Monetization, Strategy, Audience
+- ✅ **API REST complète** : Endpoints FastAPI avec support streaming temps-réel
+- ✅ **Voice Impact** : Résumés audio de vos posts avec Google Text-to-Speech
 - ✅ **Analyse des performances** : Identifie les posts les plus performants
 - ✅ **Recommandations personnalisées** : Conseils basés sur les vraies données
 - ✅ **Optimisation de contenu** : Suggestions pour améliorer l'engagement
 - ✅ **Stratégies de croissance** : Plans d'action pour augmenter l'audience
 - ✅ **RAG (Retrieval-Augmented Generation)** : Contexte pertinent via ChromaDB
 - ✅ **LLM puissant** : Featherless AI (Llama 3.1)
+- ✅ **Performance optimisée** : Temps de réponse < 3 secondes
+
+## 🆕 Nouveautés
+
+### Version 2.0 (Janvier 2026)
+- 🎙️ **Voice Impact Agent** : Résumés audio de vos posts avec Google TTS
+- 🚀 **API REST FastAPI** : 8 endpoints avec support streaming
+- 🤖 **4 Modes d'Agent** : Spécialisation par expertise (Content, Monetization, Strategy, Audience)
+- ⚡ **Optimisations** : -40% temps de réponse, -40% coûts API
+- 📊 **Endpoints Analytics** : Stats, top posts, recommendations
+
+### Version 1.0 (Décembre 2025)
+- ✅ RAG pipeline avec ChromaDB
+- ✅ CLI interactive
+- ✅ Jupyter notebooks
 
 ## 🚀 Quick Start
 
@@ -38,8 +56,9 @@ pip install -r requirements.txt
 # Copier le fichier .env.example
 cp .env.example .env
 
-# Éditer .env et ajouter votre clé API Featherless
+# Éditer .env et ajouter vos clés API
 # FEATHERLESS_API_KEY=your_api_key_here
+# GOOGLE_API_KEY=your_google_api_key (optionnel, pour Voice Impact)
 ```
 
 **Pour obtenir une clé API Featherless :**
@@ -47,12 +66,20 @@ cp .env.example .env
 2. Créer un compte gratuit
 3. Copier votre clé API
 
+**Optionnel - Pour Voice Impact (résumés audio) :**
+1. Aller sur [Google Cloud Console](https://console.cloud.google.com)
+2. Activer l'API Text-to-Speech
+3. Créer une clé API
+4. Ajouter `GOOGLE_API_KEY=your_key` dans `.env`
+
 **Optionnel - Pour utiliser vos vraies données Instagram :**
 1. Voir la section [📈 Données - Option 2](#option-2-utiliser-vos-vraies-données-instagram-instagram-graph-api)
 2. Ajouter `INSTAGRAM_ACCESS_TOKEN` dans votre `.env`
 3. Lancer `python fetch_instagram_data.py` pour récupérer vos données
 
 ### 3. Lancer l'agent
+
+#### Option A: Interface CLI (ligne de commande)
 
 ```bash
 # Mode interactif (chat)
@@ -67,6 +94,90 @@ python main.py --demo
 # Voir les statistiques
 python main.py --stats
 ```
+
+#### Option B: Serveur API (FastAPI)
+
+```bash
+# Démarrer le serveur
+uvicorn api:app --reload --port 8000
+
+# Le serveur sera accessible à http://localhost:8000
+# Documentation API: http://localhost:8000/docs
+```
+
+**Endpoints disponibles :**
+- `POST /api/chat` - Chat non-streaming (réponse complète)
+- `POST /api/chat/stream` - Chat streaming (temps-réel)
+- `GET /api/stats` - Statistiques du compte
+- `GET /api/modes` - Liste des modes d'agent disponibles
+- `POST /api/recommendations/{focus}` - Recommandations ciblées
+- `GET /api/top-posts` - Top posts par métrique
+- `GET /health` - Health check
+
+**Exemple d'utilisation de l'API :**
+
+```bash
+# Chat simple
+curl -X POST "http://localhost:8000/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Quels sont mes meilleurs posts ?", "mode": "content_analyst"}'
+
+# Obtenir les stats
+curl "http://localhost:8000/api/stats"
+
+# Recommandations ciblées
+curl -X POST "http://localhost:8000/api/recommendations/content"
+```
+
+## 🤖 Modes d'Agent Spécialisés
+
+L'agent propose **4 modes d'expertise** adaptés à vos besoins :
+
+### 📊 Content Analyst
+Analyse détaillée de vos performances Instagram.
+```python
+agent.ask("Analyse mes meilleurs posts de la semaine", mode="content_analyst")
+```
+**Expertise :** Métriques, engagement, types de contenu performants
+
+### 💰 Monetization Advisor
+Conseils pour monétiser votre compte et obtenir des partenariats.
+```python
+agent.ask("Comment puis-je monétiser mon compte ?", mode="monetization")
+```
+**Expertise :** Partenariats, tarification, stratégies de revenus
+
+### 🎯 Content Strategy
+Planification stratégique de contenu et idées créatives.
+```python
+agent.ask("Quelles idées de posts pour la semaine prochaine ?", mode="content_strategy")
+```
+**Expertise :** Planning éditorial, tendances, créativité
+
+### 👥 Audience Insights
+Compréhension approfondie de votre communauté.
+```python
+agent.ask("Qui sont mes followers les plus engagés ?", mode="audience")
+```
+**Expertise :** Démographie, comportements, interactions
+
+### 🎙️ Voice Impact (Nouveau!)
+
+Génère des résumés **audio** de vos performances avec Google Text-to-Speech.
+
+```bash
+# Nécessite GOOGLE_API_KEY dans .env
+python -c "from src.voice_impact_agent_google_api import VoiceImpactAgent; agent = VoiceImpactAgent(); agent.generate_voice_summary()"
+```
+
+**Caractéristiques :**
+- Résumés courts (30-60 secondes)
+- Voix françaises naturelles (Neural2, Wavenet, Studio)
+- Format conversationnel et oral
+- Fichiers audio sauvegardés dans `output/voice_summaries/`
+- Analyse du dernier post publié
+
+**Cas d'usage :** Écouter vos performances pendant vos déplacements, partager sur Instagram Stories, créer du contenu audio.
 
 ## 📊 Utilisation du Notebook
 
@@ -86,19 +197,34 @@ Le notebook inclut :
 
 ```
 instagram-coach-agent/
+├── api.py                                    # FastAPI REST server
+├── main.py                                   # Interface CLI
 ├── data/
-│   ├── sample_posts.json         # 30 posts Instagram mockés
-│   └── influencer_profile.json   # Profil de l'influenceur
+│   ├── sample_posts.json                    # 30+ posts Instagram mockés
+│   └── influencer_profile.json              # Profil de l'influenceur
 ├── src/
-│   ├── config.py                 # Configuration
-│   ├── embeddings.py             # Génération d'embeddings
-│   ├── vector_store.py           # ChromaDB vector store
-│   ├── llm_client.py             # Client Featherless AI
-│   ├── rag_pipeline.py           # Pipeline RAG complet
-│   └── agent.py                  # Agent principal
+│   ├── agent.py                             # Agent principal
+│   ├── agent_modes.py                       # Routing des modes spécialisés
+│   ├── rag_pipeline.py                      # Pipeline RAG complet
+│   ├── llm_client.py                        # Client Featherless AI
+│   ├── vector_store.py                      # ChromaDB vector store
+│   ├── embeddings.py                        # Génération d'embeddings
+│   ├── voice_impact_agent_google_api.py     # Agent Voice Impact (TTS)
+│   ├── data_transformer.py                  # Transformation de données
+│   ├── config.py                            # Configuration
+│   ├── prompts/                             # Prompts système par mode
+│   │   ├── content_analyst_prompt.txt
+│   │   ├── monetization_advisor_prompt.txt
+│   │   ├── content_strategy_prompt.txt
+│   │   ├── audience_insights_prompt.txt
+│   │   └── voice_impact_summary_prompt.txt
+│   └── utils/
+│       └── prompt_manager.py                # Gestion des prompts
 ├── notebooks/
-│   └── demo.ipynb                # Démo interactive
-├── main.py                       # CLI
+│   └── demo.ipynb                           # Démo interactive
+├── tests/                                   # Tests unitaires
+├── output/                                  # Sorties (API, voice)
+├── chroma_db/                               # Persistence vector store
 └── requirements.txt
 ```
 
@@ -140,22 +266,36 @@ response = agent.ask("Comment améliorer mon engagement ?")
 
 ## 💡 Exemples de questions
 
+### 📊 Content Analyst
 ```python
-# Analyse de performance
 "Quels sont mes posts les plus performants ?"
-"Quel type de contenu fonctionne le mieux ?"
+"Quel type de contenu génère le plus d'engagement ?"
+"Compare les performances de mes reels vs photos"
+"Quels posts ont le meilleur taux de sauvegarde ?"
+```
 
-# Optimisation
-"Comment améliorer mon taux d'engagement ?"
-"Quels hashtags devrais-je utiliser ?"
+### 💰 Monetization Advisor
+```python
+"Comment puis-je monétiser mon compte avec 15K followers ?"
+"Combien devrais-je facturer pour un partenariat ?"
+"Quelles marques pourraient être intéressées par mon profil ?"
+"Comment créer un media kit efficace ?"
+```
 
-# Stratégie
-"Quelle stratégie pour augmenter mes followers ?"
+### 🎯 Content Strategy
+```python
+"Quelles idées de posts pour la semaine prochaine ?"
+"Comment créer un calendrier éditorial efficace ?"
 "À quelle fréquence devrais-je publier ?"
+"Quels sujets tendances exploiter dans ma niche ?"
+```
 
-# Timing
-"Quels sont les meilleurs moments pour publier ?"
-"Comment planifier mon contenu pour le mois prochain ?"
+### 👥 Audience Insights
+```python
+"Qui sont mes followers les plus engagés ?"
+"À quel moment ma communauté est-elle la plus active ?"
+"Comment améliorer l'interaction avec mes followers ?"
+"Quelle est la démographie de mon audience ?"
 ```
 
 ## 🔧 Technologies
@@ -165,8 +305,10 @@ response = agent.ask("Comment améliorer mon engagement ?")
 | **LLM** | Featherless AI (Llama 3.1 8B) | Rapide, gratuit, performant |
 | **Embeddings** | sentence-transformers | Local, gratuit, multilingual |
 | **Vector DB** | ChromaDB | Simple, local, pas de setup serveur |
+| **API Framework** | FastAPI + Uvicorn | Async, rapide, auto-documentation |
+| **TTS** | Google Cloud Text-to-Speech | Voix naturelles, multi-langues |
 | **Framework** | Python 3.10+ | Écosystème ML mature |
-| **Interface** | CLI + Jupyter | Démo facile |
+| **Interface** | CLI + API + Jupyter | Multi-plateforme, flexible |
 
 ## 📈 Données
 
@@ -296,11 +438,32 @@ Ensuite, lancez simplement `python main.py` pour utiliser vos vraies données!
 
 ## 🎓 Utilisation Avancée
 
+### Sélection du mode d'agent
+
+```python
+from src.agent import InstagramCoachAgent
+
+agent = InstagramCoachAgent()
+
+# Mode Content Analyst
+response = agent.ask("Analyse mes meilleurs posts", mode="content_analyst")
+
+# Mode Monetization
+response = agent.ask("Combien facturer ?", mode="monetization")
+
+# Mode Strategy
+response = agent.ask("Idées de contenu", mode="content_strategy")
+
+# Mode Audience
+response = agent.ask("Qui sont mes followers ?", mode="audience")
+```
+
 ### Personnaliser les paramètres LLM
 
 ```python
 agent.ask(
     "Votre question",
+    mode="content_analyst",
     temperature=0.9,      # Plus créatif (0.0-1.0)
     max_tokens=600,       # Réponse plus longue
     n_posts=10            # Plus de contexte
@@ -333,12 +496,62 @@ agent.suggest_hashtags()            # Hashtags recommandés
 agent.get_posting_schedule()        # Planning optimal
 ```
 
+### API Streaming vs Non-Streaming
+
+**Non-streaming** (réponse complète) :
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/api/chat",
+    json={"message": "Analyse mes posts", "mode": "content_analyst"}
+)
+print(response.json()["response"])
+```
+
+**Streaming** (temps-réel) :
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/api/chat/stream",
+    json={"message": "Analyse mes posts", "mode": "content_analyst", "stream": True},
+    stream=True
+)
+
+for line in response.iter_lines():
+    if line:
+        print(line.decode('utf-8'))
+```
+
+### Voice Impact - Génération audio
+
+```python
+from src.voice_impact_agent_google_api import VoiceImpactAgent
+
+# Initialiser l'agent
+voice_agent = VoiceImpactAgent()
+
+# Générer un résumé audio du dernier post
+audio_path = voice_agent.generate_voice_summary()
+print(f"Audio généré : {audio_path}")
+
+# Personnaliser la voix
+voice_agent.generate_voice_summary(
+    voice_name="fr-FR-Neural2-A",  # Voix féminine
+    speaking_rate=1.1,              # Plus rapide
+    pitch=2.0                       # Ton plus aigu
+)
+```
+
 ## 🐛 Troubleshooting
 
 ### Erreur "API key not found"
 ```bash
 # Vérifier que .env existe et contient :
 FEATHERLESS_API_KEY=your_actual_key
+# Pour Voice Impact :
+GOOGLE_API_KEY=your_google_key
 ```
 
 ### Erreur d'import ChromaDB
@@ -359,6 +572,175 @@ pip install -r requirements.txt
 ```python
 # Dans .env, utiliser un modèle plus petit :
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+```
+
+### Erreur Google Cloud TTS
+```bash
+# Vérifier que l'API Text-to-Speech est activée
+# Dans Google Cloud Console > API & Services > Enable APIs
+# Chercher "Cloud Text-to-Speech API" et l'activer
+
+# Vérifier la clé API
+echo $GOOGLE_API_KEY  # Doit afficher votre clé
+```
+
+### Erreur FastAPI / Uvicorn
+```bash
+# Port déjà utilisé
+uvicorn api:app --reload --port 8001  # Utiliser un autre port
+
+# Erreur CORS
+# Vérifier que l'origine est autorisée dans api.py > allow_origins
+```
+
+### Mode d'agent non reconnu
+```python
+# Modes valides : content_analyst, monetization, content_strategy, audience
+# Vérifier l'orthographe et les underscores
+agent.ask("Votre question", mode="content_analyst")  # ✅
+agent.ask("Votre question", mode="content analyst")  # ❌
+```
+
+## 🔌 API Reference
+
+L'API FastAPI offre plusieurs endpoints pour intégrer l'agent dans vos applications.
+
+### Base URL
+```
+http://localhost:8000
+```
+
+### Endpoints Disponibles
+
+#### POST `/api/chat`
+Chat non-streaming avec réponse complète.
+
+**Request:**
+```json
+{
+  "message": "Quels sont mes meilleurs posts ?",
+  "mode": "content_analyst",
+  "temperature": 0.7,
+  "max_tokens": 500
+}
+```
+
+**Response:**
+```json
+{
+  "response": "Voici une analyse de vos meilleurs posts...",
+  "mode": "content_analyst",
+  "processing_time": 2.3
+}
+```
+
+#### POST `/api/chat/stream`
+Chat streaming pour réponses en temps-réel.
+
+**Request:** (identique à `/api/chat` avec `"stream": true`)
+
+**Response:** Server-Sent Events (SSE)
+```
+data: {"chunk": "Voici"}
+data: {"chunk": " une"}
+data: {"chunk": " analyse..."}
+```
+
+#### GET `/api/stats`
+Statistiques globales du compte.
+
+**Response:**
+```json
+{
+  "total_posts": 30,
+  "total_likes": 45230,
+  "total_comments": 2140,
+  "avg_engagement_rate": 8.5,
+  "top_performing_type": "reel",
+  "follower_count": 15000
+}
+```
+
+#### GET `/api/modes`
+Liste des modes d'agent disponibles.
+
+**Response:**
+```json
+{
+  "modes": [
+    {
+      "id": "content_analyst",
+      "name": "Content Analyst",
+      "description": "Analyse de performance et métriques",
+      "icon": "📊"
+    },
+    {
+      "id": "monetization",
+      "name": "Monetization Advisor",
+      "description": "Conseils de monétisation",
+      "icon": "💰"
+    },
+    // ... autres modes
+  ]
+}
+```
+
+#### POST `/api/recommendations/{focus}`
+Recommandations ciblées (focus: content, growth, engagement).
+
+**Response:**
+```json
+{
+  "focus": "content",
+  "recommendations": [
+    "Publiez plus de reels, ils génèrent 2x plus d'engagement",
+    "Utilisez des hashtags de niche (#lifestylefr)",
+    // ... autres recommandations
+  ]
+}
+```
+
+#### GET `/api/top-posts?metric=engagement_rate&limit=5`
+Top posts par métrique (likes, comments, engagement_rate, saves, reach).
+
+**Response:**
+```json
+{
+  "metric": "engagement_rate",
+  "posts": [
+    {
+      "id": "post_001",
+      "caption": "Ma routine matinale...",
+      "engagement_rate": 11.3,
+      "likes": 1250,
+      // ... autres métriques
+    }
+    // ... autres posts
+  ]
+}
+```
+
+#### GET `/health`
+Health check de l'API.
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "version": "1.0.0"
+}
+```
+
+### Documentation Interactive
+
+Une fois le serveur démarré, accédez à la documentation Swagger :
+```
+http://localhost:8000/docs
+```
+
+Ou à la documentation ReDoc :
+```
+http://localhost:8000/redoc
 ```
 
 ## ⚡ Performance & Optimisations
