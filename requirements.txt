@@ -1,0 +1,21 @@
+# LLM & Embeddings
+openai>=1.0.0
+sentence-transformers>=2.2.0
+langchain>=0.1.0
+langchain-community>=0.0.20
+
+# Vector Store
+chromadb>=0.4.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+requests>=2.31.0
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Dev & Demo
+jupyter>=1.0.0
+ipykernel>=6.0.0
+pytest>=7.4.0
+black>=23.0.0
